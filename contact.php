@@ -96,8 +96,13 @@ require_once 'includes/header.php';
                 <div style="margin-top:var(--space-8);">
                     <h3 style="font-size:var(--text-sm); font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-400); margin-bottom:var(--space-4);">Follow Us</h3>
                     <div class="footer-social">
-                        <?php foreach([['fab fa-facebook-f','Facebook'],['fab fa-instagram','Instagram'],['fab fa-x-twitter','Twitter'],['fab fa-tripadvisor','TripAdvisor'],['fab fa-youtube','YouTube']] as $soc): ?>
-                        <a href="#" class="social-link" style="background:var(--gray-100); color:var(--gray-600);" aria-label="<?= $soc[1] ?>"><i class="<?= $soc[0] ?>"></i></a>
+                        <?php foreach([
+                            ['fab fa-facebook-f','Facebook',  $settings['social_facebook']  ?? '#'],
+                            ['fab fa-x-twitter', 'Twitter / X',$settings['social_twitter']   ?? '#'],
+                            ['fab fa-instagram', 'Instagram', $settings['social_instagram'] ?? '#'],
+                            ['fab fa-youtube',   'YouTube',   $settings['social_youtube']   ?? '#'],
+                        ] as $soc): ?>
+                        <a href="<?= htmlspecialchars($soc[2]) ?>" class="social-link" style="background:var(--gray-100); color:var(--gray-600);" aria-label="<?= $soc[1] ?>"><i class="<?= $soc[0] ?>"></i></a>
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -123,14 +128,14 @@ require_once 'includes/header.php';
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="contact_email">Email Address <span class="required">*</span></label>
-                                <input class="form-control" type="email" id="contact_email" name="email" placeholder="john@example.com" required
+                                <input class="form-control" type="email" id="contact_email" name="email" required
                                        value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                             </div>
                         </div>
                         <div class="grid-2" style="gap:var(--space-4);">
                             <div class="form-group">
                                 <label class="form-label" for="contact_phone">Phone Number</label>
-                                <input class="form-control" type="tel" id="contact_phone" name="phone" placeholder="+1 555 000 0000"
+                                <input class="form-control" type="tel" id="contact_phone" name="phone"
                                        value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>">
                             </div>
                             <div class="form-group">

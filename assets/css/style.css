@@ -547,7 +547,6 @@ input, textarea, select { font-family: inherit; }
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    transition: transform 10s ease;
 }
 
 .hero-overlay {

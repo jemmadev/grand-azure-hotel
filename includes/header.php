@@ -76,10 +76,10 @@ function nav_class(string $page, string $current): string {
             <!-- Main Menu -->
             <ul class="nav-menu" id="navMenu" role="menubar">
                 <li role="none"><a href="<?= SITE_URL ?>/index.php"      class="<?= nav_class('index.php', $current_page) ?>"      role="menuitem">Home</a></li>
-                <li role="none"><a href="<?= SITE_URL ?>/about.html"      class="<?= nav_class('about.html', $current_page) ?>"      role="menuitem">About</a></li>
+                <li role="none"><a href="<?= SITE_URL ?>/about.php"      class="<?= nav_class('about.php', $current_page) ?>"      role="menuitem">About</a></li>
                 <li role="none"><a href="<?= SITE_URL ?>/rooms.php"      class="<?= nav_class('rooms.php', $current_page) ?>"      role="menuitem">Rooms</a></li>
                 <li role="none"><a href="<?= SITE_URL ?>/services.php"   class="<?= nav_class('services.php', $current_page) ?>"   role="menuitem">Services</a></li>
-                <li role="none"><a href="<?= SITE_URL ?>/restaurant.html" class="<?= nav_class('restaurant.html', $current_page) ?>" role="menuitem">Restaurant</a></li>
+                <li role="none"><a href="<?= SITE_URL ?>/restaurant.php" class="<?= nav_class('restaurant.php', $current_page) ?>" role="menuitem">Restaurant</a></li>
                 <li role="none"><a href="<?= SITE_URL ?>/gallery.php"    class="<?= nav_class('gallery.php', $current_page) ?>"    role="menuitem">Gallery</a></li>
                 <li role="none"><a href="<?= SITE_URL ?>/contact.php"    class="<?= nav_class('contact.php', $current_page) ?>"    role="menuitem">Contact</a></li>
             </ul>

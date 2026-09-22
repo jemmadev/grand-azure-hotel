@@ -57,17 +57,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 require_once 'includes/header.php';
+$auth_bg = image_url(setting($conn, 'hero_image', 'assets/images/hero.jpg'));
 ?>
 <style>
-.auth-wrapper { min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--cream); padding:var(--space-20) var(--space-4); }
+.auth-wrapper { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:var(--space-20) var(--space-4);
+    background-image: linear-gradient(rgba(10,22,40,.75), rgba(10,22,40,.85)), url('<?= htmlspecialchars($auth_bg) ?>');
+    background-size: cover; background-position: center; background-attachment: fixed; }
 .auth-card { background:var(--white); border-radius:var(--radius-lg); overflow:hidden; width:100%; max-width:960px; box-shadow:var(--shadow-lg); display:grid; grid-template-columns:1fr 1fr; }
 .auth-image { position:relative; overflow:hidden; }
 .auth-image img { width:100%; height:100%; object-fit:cover; }
 .auth-image-overlay { position:absolute; inset:0; background:linear-gradient(135deg,rgba(10,22,40,.85),rgba(17,34,64,.7)); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--space-10); color:var(--white); text-align:center; }
 .auth-form-panel { padding:var(--space-10); }
-.divider { display:flex; align-items:center; gap:var(--space-4); margin:var(--space-5) 0; }
-.divider::before,.divider::after { content:''; flex:1; height:1px; background:var(--gray-200); }
-.divider span { font-size:var(--text-xs); color:var(--gray-400); white-space:nowrap; }
 @media(max-width:768px){ .auth-card { grid-template-columns:1fr; } .auth-image { display:none; } }
 </style>
 
@@ -75,7 +75,7 @@ require_once 'includes/header.php';
     <div class="auth-card animate-scale-in">
         <!-- Image panel -->
         <div class="auth-image">
-            <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80" alt="Grand Azure Hotel Suite">
+            <img src="<?= htmlspecialchars($auth_bg) ?>" alt="Grand Azure Hotel">
             <div class="auth-image-overlay">
                 <div class="nav-logo-icon" style="width:60px;height:60px;font-size:1.5rem;margin-bottom:var(--space-5);">GA</div>
                 <h2 style="font-family:var(--font-serif);font-size:var(--text-2xl);margin-bottom:var(--space-4);">Join Grand Azure</h2>
@@ -103,30 +103,30 @@ require_once 'includes/header.php';
             <form method="POST" action="register.php" data-validate id="registerForm">
                 <div class="form-group">
                     <label class="form-label" for="name">Full Name <span class="required">*</span></label>
-                    <input class="form-control" type="text" id="name" name="name" placeholder="John Smith" required
+                    <input class="form-control" type="text" id="name" name="name" required
                            value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="email">Email Address <span class="required">*</span></label>
-                    <input class="form-control" type="email" id="email" name="email" placeholder="john@example.com" required
+                    <input class="form-control" type="email" id="email" name="email" required
                            value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="phone">Phone Number</label>
-                    <input class="form-control" type="tel" id="phone" name="phone" placeholder="+1 555 000 0000"
+                    <input class="form-control" type="tel" id="phone" name="phone" 
                            value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="password">Password <span class="required">*</span></label>
                     <div style="position:relative;">
-                        <input class="form-control" type="password" id="password" name="password" placeholder="Min. 8 characters" required minlength="8">
+                        <input class="form-control" type="password" id="password" name="password" required minlength="8">
                         <button type="button" onclick="togglePass('password',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--gray-400);cursor:pointer;"><i class="fas fa-eye"></i></button>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="confirm_password">Confirm Password <span class="required">*</span></label>
                     <div style="position:relative;">
-                        <input class="form-control" type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter password" required>
+                        <input class="form-control" type="password" id="confirm_password" name="confirm_password" required>
                         <button type="button" onclick="togglePass('confirm_password',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--gray-400);cursor:pointer;"><i class="fas fa-eye"></i></button>
                     </div>
                 </div>
@@ -135,9 +135,8 @@ require_once 'includes/header.php';
                 </button>
             </form>
 
-            <div class="divider"><span>or continue with</span></div>
             <p style="text-align:center; font-size:var(--text-xs); color:var(--gray-400);">
-                By registering, you agree to our <a href="#" style="color:var(--gold);">Terms of Service</a> and <a href="#" style="color:var(--gold);">Privacy Policy</a>.
+                By registering, you agree to our <a href="terms.php" style="color:var(--gold);">Terms of Service</a> and <a href="privacy.php" style="color:var(--gold);">Privacy Policy</a>.
             </p>
         </div>
     </div>

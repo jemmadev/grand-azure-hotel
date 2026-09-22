@@ -17,6 +17,7 @@ if (!is_logged_in()) {
 
 // Pre-fill from query params (from rooms page or quick booking bar)
 $pre_room_id  = isset($_GET['room_id'])   ? (int)$_GET['room_id']   : 0;
+$pre_room_type= isset($_GET['room_type']) ? sanitize($_GET['room_type']) : '';
 $pre_check_in = sanitize($_GET['check_in']  ?? '');
 $pre_check_out= sanitize($_GET['check_out'] ?? '');
 $pre_guests   = isset($_GET['guests']) ? (int)$_GET['guests'] : 1;
@@ -26,6 +27,19 @@ $all_rooms = get_all_rooms($conn);
 
 // Fetch the pre-selected room if any
 $selected_room = $pre_room_id ? get_room_by_id($conn, $pre_room_id) : null;
+
+// If no specific room was chosen but a room type/category was (e.g. from
+// the homepage quick-search bar's "Room Type" dropdown), pick the first
+// available room in that category instead of ignoring the selection.
+if (!$selected_room && $pre_room_type) {
+    foreach ($all_rooms as $r) {
+        if ($r['category'] === $pre_room_type && $r['status'] === 'available') {
+            $selected_room = $r;
+            $pre_room_id   = (int)$r['id'];
+            break;
+        }
+    }
+}
 
 $error   = '';
 $success = '';

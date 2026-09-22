@@ -157,7 +157,16 @@ INSERT INTO settings (setting_key, setting_value) VALUES
 ('social_instagram',   '#'),
 ('social_twitter',     '#'),
 ('social_tripadvisor', '#'),
-('social_youtube',     '#')
+('social_youtube',     '#'),
+('hero_image',         'assets/images/hero.jpg'),
+('about_image',        'assets/images/about.jpg'),
+('about_title',        'A Legacy of Luxury'),
+('about_text_1',       'Since 1999, Grand Azure Hotel has stood as a beacon of excellence in luxury hospitality. Nestled in the heart of the city, we have welcomed dignitaries, celebrities, and discerning travelers who seek nothing but the very best.'),
+('about_text_2',       'Our commitment to personalized service, culinary artistry, and unparalleled comfort has earned us 12 prestigious industry awards and the unwavering loyalty of guests from across the globe.'),
+('stat_rooms',         '250'),
+('stat_guests',        '15000'),
+('stat_years',         '25'),
+('stat_awards',        '12')
 ON DUPLICATE KEY UPDATE setting_key = setting_key;
 
 -- ============================================================
@@ -266,3 +275,63 @@ INSERT INTO faqs (question, answer, category, sort_order) VALUES
 ('Is there a gym/fitness center?',                      'Our fully-equipped fitness center is open 24 hours a day, 7 days a week. Personal trainers are available by appointment.',                                               'Amenities', 8),
 ('Can I request a specific room or floor?',             'Yes, we do our best to accommodate special requests. Please note that specific room/floor requests are subject to availability and cannot be guaranteed.',                 'Bookings', 9),
 ('Do you offer wedding or event packages?',             'Absolutely! Our dedicated events team offers customized packages for weddings, corporate events, and private celebrations. Please contact us for a personalized quote.',   'Events',   10);
+
+-- ============================================================
+--  Migration: About page (Founder + Leadership) and featured
+--  section images (Spa, Fine Dining, Sky Bar) — now editable
+--  from Admin > Site Content instead of being hardcoded in
+--  about.html / services.php / restaurant.html.
+-- ============================================================
+
+-- New settings keys for single "featured" images. Same key/value
+-- pattern as hero_image / about_image above, read via setting().
+INSERT INTO settings (setting_key, setting_value) VALUES
+('founder_image', 'https://images.unsplash.com/photo-1568495248636-6432b97bd949?auto=format&fit=crop&w=800&q=80'),
+('spa_image',     'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=800&q=80'),
+('dining_image',  'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80'),
+('skybar_image',  'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80')
+ON DUPLICATE KEY UPDATE setting_key = setting_key;
+
+-- ============================================================
+--  Table: team_members  (About page "Meet Our Leadership")
+-- ============================================================
+CREATE TABLE IF NOT EXISTS team_members (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    name        VARCHAR(150)        NOT NULL,
+    role        VARCHAR(150)        NOT NULL,
+    image       VARCHAR(255)        DEFAULT NULL,
+    linkedin_url VARCHAR(255)       DEFAULT NULL,
+    twitter_url  VARCHAR(255)       DEFAULT NULL,
+    status      ENUM('active','inactive') DEFAULT 'active',
+    sort_order  INT                 DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO team_members (name, role, image, sort_order) VALUES
+('Jonathan Clarke', 'General Manager',          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80', 1),
+('Sophia Hartmann',  'Director of Operations',  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80', 2),
+('Marcus DeLeon',    'Executive Chef',          'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80', 3),
+('Amira Osei',       'Head of Guest Experience','https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80', 4)
+ON DUPLICATE KEY UPDATE name = name;
+
+-- ============================================================
+--  Table: room_images  (extra photos per room — e.g. bathroom,
+--  toilet, alternate angle — shown as a thumbnail gallery on
+--  room-detail.php, managed from Admin > Rooms > Manage Photos)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS room_images (
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    room_id    INT             NOT NULL,
+    image      VARCHAR(255)    NOT NULL,
+    caption    VARCHAR(150)    DEFAULT NULL,
+    sort_order INT             DEFAULT 0,
+    FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Pool photo (Services page) — was hardcoded, now editable from
+-- Admin > Site Content like the founder/spa/dining/sky-bar images.
+INSERT INTO settings (setting_key, setting_value) VALUES
+('pool_image', 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80')
+ON DUPLICATE KEY UPDATE setting_key = setting_key;
+
+-- TripAdvisor is no longer used as a social link.
+DELETE FROM settings WHERE setting_key = 'social_tripadvisor';

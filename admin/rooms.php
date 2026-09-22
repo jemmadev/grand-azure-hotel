@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($action, ['add', 'edit']) 
             }
             $new_name = 'room_' . time() . '_' . mt_rand(1000, 9999) . '.' . $ext;
             $dest     = $upload_dir . $new_name;
-            if (move_uploaded_file($file_tmp, $dest)) {
+            if (resize_and_save_upload($file_tmp, $dest, $ext)) {
                 $image_path = 'assets/images/rooms/' . $new_name;
             } else {
                 $errors[] = 'Failed to move uploaded image.';
@@ -264,6 +264,7 @@ $rooms = get_all_rooms($conn);
                         </td>
                         <td style="text-align: right;">
                             <a href="rooms.php?action=edit&id=<?= $r['id'] ?>" class="btn btn-outline-dark btn-sm"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="room-images.php?room_id=<?= $r['id'] ?>" class="btn btn-outline-dark btn-sm"><i class="fas fa-images"></i> Photos</a>
                             <form method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this room? This action is permanent.');">
                                 <?php csrf_field(); ?>
                                 <input type="hidden" name="room_id" value="<?= $r['id'] ?>">

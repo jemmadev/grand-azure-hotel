@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($action, ['add', 'edit']) 
             }
             $new_name = 'gallery_' . time() . '_' . mt_rand(1000, 9999) . '.' . $ext;
             $dest     = $upload_dir . $new_name;
-            if (move_uploaded_file($file_tmp, $dest)) {
+            if (resize_and_save_upload($file_tmp, $dest, $ext)) {
                 $image_path = 'assets/images/gallery/' . $new_name;
             } else {
                 $errors[] = 'Failed to move uploaded image.';

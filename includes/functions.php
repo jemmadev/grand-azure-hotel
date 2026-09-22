@@ -276,6 +276,116 @@ function get_testimonials($conn, int $limit = 4): array {
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
+// ---- Image Upload Resizing ------------------------------------
+
+/**
+ * Resize an uploaded image (if needed) and save it to disk as an
+ * optimized, web-sized file. Caps the longest side at $max_dim and
+ * re-compresses so a raw phone/camera photo (often 3-15MB) doesn't
+ * get served to every visitor at full resolution — this is what
+ * was causing pages to feel slow to load.
+ *
+ * Returns true on success, false on failure (caller should show an
+ * error rather than assume the file was saved).
+ */
+function resize_and_save_upload(string $tmp_path, string $dest_path, string $ext, int $max_dim = 1920, int $jpeg_quality = 80): bool {
+    $ext = strtolower($ext);
+
+    $src = match ($ext) {
+        'jpg', 'jpeg' => @imagecreatefromjpeg($tmp_path),
+        'png'         => @imagecreatefrompng($tmp_path),
+        'webp'        => @imagecreatefromwebp($tmp_path),
+        default       => false,
+    };
+    if (!$src) {
+        return false;
+    }
+
+    $width  = imagesx($src);
+    $height = imagesy($src);
+
+    if (max($width, $height) > $max_dim) {
+        $ratio      = $max_dim / max($width, $height);
+        $new_width  = (int) round($width  * $ratio);
+        $new_height = (int) round($height * $ratio);
+
+        $resized = imagecreatetruecolor($new_width, $new_height);
+        if ($ext === 'png' || $ext === 'webp') {
+            imagealphablending($resized, false);
+            imagesavealpha($resized, true);
+        }
+        imagecopyresampled($resized, $src, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+        imagedestroy($src);
+        $src = $resized;
+    }
+
+    $ok = match ($ext) {
+        'jpg', 'jpeg' => imagejpeg($src, $dest_path, $jpeg_quality),
+        'png'         => imagepng($src, $dest_path, 6),
+        'webp'        => imagewebp($src, $dest_path, $jpeg_quality),
+        default       => false,
+    };
+    imagedestroy($src);
+
+    return $ok;
+}
+
+// ---- Room Images (extra photos per room: bathroom, alternate
+// angles, etc. — shown as a thumbnail gallery on room-detail.php) --
+
+/**
+ * Fetch the extra photos for one room, in display order.
+ */
+function get_room_images($conn, int $room_id): array {
+    $stmt = $conn->prepare("SELECT * FROM room_images WHERE room_id = ? ORDER BY sort_order ASC, id ASC");
+    $stmt->bind_param('i', $room_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+}
+
+/**
+ * Fetch a single room image record by its own ID (used by the
+ * admin delete action, so we know which file to remove from disk).
+ */
+function get_room_image($conn, int $id): ?array {
+    $stmt = $conn->prepare("SELECT * FROM room_images WHERE id = ?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc() ?: null;
+}
+
+// ---- Team Members (About page "Meet Our Leadership") ---------
+
+/**
+ * Fetch active team members for the public About page, ordered
+ * for display.
+ */
+function get_team_members($conn): array {
+    $result = $conn->query("SELECT * FROM team_members WHERE status='active' ORDER BY sort_order ASC, id ASC");
+    return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+}
+
+/**
+ * Fetch every team member for the admin listing (active and inactive).
+ */
+function get_all_team_members($conn): array {
+    $result = $conn->query("SELECT * FROM team_members ORDER BY sort_order ASC, id ASC");
+    return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+}
+
+/**
+ * Fetch a single team member by ID
+ */
+function get_team_member($conn, int $id): ?array {
+    $stmt = $conn->prepare("SELECT * FROM team_members WHERE id = ?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc() ?: null;
+}
+
 // ---- Formatting Helpers -------------------------------------
 
 /**

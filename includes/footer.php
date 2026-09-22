@@ -28,9 +28,8 @@
                 </p>
                 <div class="footer-social" role="list" aria-label="Social media links">
                     <a href="<?= htmlspecialchars($settings['social_facebook'] ?? '#') ?>" class="social-link" role="listitem" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="<?= htmlspecialchars($settings['social_instagram'] ?? '#') ?>" class="social-link" role="listitem" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     <a href="<?= htmlspecialchars($settings['social_twitter'] ?? '#') ?>" class="social-link" role="listitem" aria-label="Twitter / X"><i class="fab fa-x-twitter"></i></a>
-                    <a href="<?= htmlspecialchars($settings['social_tripadvisor'] ?? '#') ?>" class="social-link" role="listitem" aria-label="TripAdvisor"><i class="fab fa-tripadvisor"></i></a>
+                    <a href="<?= htmlspecialchars($settings['social_instagram'] ?? '#') ?>" class="social-link" role="listitem" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     <a href="<?= htmlspecialchars($settings['social_youtube'] ?? '#') ?>" class="social-link" role="listitem" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
@@ -40,10 +39,10 @@
                 <h3 class="footer-heading">Quick Links</h3>
                 <ul class="footer-links">
                     <li><a href="<?= SITE_URL ?>/index.php"      class="footer-link"><i class="fas fa-chevron-right"></i> Home</a></li>
-                    <li><a href="<?= SITE_URL ?>/about.html"      class="footer-link"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="<?= SITE_URL ?>/about.php"      class="footer-link"><i class="fas fa-chevron-right"></i> About Us</a></li>
                     <li><a href="<?= SITE_URL ?>/rooms.php"       class="footer-link"><i class="fas fa-chevron-right"></i> Rooms &amp; Suites</a></li>
                     <li><a href="<?= SITE_URL ?>/services.php"   class="footer-link"><i class="fas fa-chevron-right"></i> Services</a></li>
-                    <li><a href="<?= SITE_URL ?>/restaurant.html" class="footer-link"><i class="fas fa-chevron-right"></i> Restaurant</a></li>
+                    <li><a href="<?= SITE_URL ?>/restaurant.php" class="footer-link"><i class="fas fa-chevron-right"></i> Restaurant</a></li>
                     <li><a href="<?= SITE_URL ?>/gallery.php"    class="footer-link"><i class="fas fa-chevron-right"></i> Gallery</a></li>
                     <li><a href="<?= SITE_URL ?>/faq.php"        class="footer-link"><i class="fas fa-chevron-right"></i> FAQ</a></li>
                     <li><a href="<?= SITE_URL ?>/contact.php"    class="footer-link"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
@@ -94,7 +93,11 @@
         <!-- Footer Bottom -->
         <div class="footer-bottom">
             <p>&copy; <?= date('Y') ?> <strong style="color:rgba(255,255,255,.7)"><?= htmlspecialchars($hotel_name ?? SITE_NAME) ?></strong>. <?= htmlspecialchars($settings['copyright_text'] ?? 'All rights reserved.') ?></p>
-            <p>Designed with <i class="fas fa-heart" style="color:var(--gold);margin:0 2px"></i> for luxury hospitality</p>
+            <p>
+                <a href="<?= SITE_URL ?>/terms.php" style="color:rgba(255,255,255,.6);">Terms of Service</a>
+                &nbsp;&middot;&nbsp;
+                <a href="<?= SITE_URL ?>/privacy.php" style="color:rgba(255,255,255,.6);">Privacy Policy</a>
+            </p>
         </div>
     </div>
 </footer>

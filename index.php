@@ -23,7 +23,7 @@ require_once 'includes/header.php';
      HERO SECTION
 ============================================================ -->
 <section class="hero" id="hero" aria-label="Welcome to Grand Azure Hotel">
-    <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80');" role="img" aria-label="Grand Azure Hotel exterior view"></div>
+    <div class="hero-bg" style="background-image: url('<?= htmlspecialchars(image_url(setting($conn, 'hero_image', 'assets/images/hero.jpg'))) ?>');" role="img" aria-label="Grand Azure Hotel exterior view"></div>
     <div class="hero-overlay"></div>
 
     <div class="hero-content animate-fade-up">
@@ -134,19 +134,19 @@ require_once 'includes/header.php';
     <div class="container">
         <div class="stats-grid">
             <div class="stat-item reveal">
-                <div class="stat-number" data-count="250" data-suffix="+">0</div>
+                <div class="stat-number" data-count="<?= htmlspecialchars(setting($conn, 'stat_rooms', '250')) ?>" data-suffix="+">0</div>
                 <div class="stat-label">Luxury Rooms</div>
             </div>
             <div class="stat-item reveal delay-1">
-                <div class="stat-number" data-count="15000" data-suffix="+">0</div>
+                <div class="stat-number" data-count="<?= htmlspecialchars(setting($conn, 'stat_guests', '15000')) ?>" data-suffix="+">0</div>
                 <div class="stat-label">Happy Guests</div>
             </div>
             <div class="stat-item reveal delay-2">
-                <div class="stat-number" data-count="25" data-suffix="">0</div>
+                <div class="stat-number" data-count="<?= htmlspecialchars(setting($conn, 'stat_years', '25')) ?>" data-suffix="">0</div>
                 <div class="stat-label">Years of Excellence</div>
             </div>
             <div class="stat-item reveal delay-3">
-                <div class="stat-number" data-count="12" data-suffix="">0</div>
+                <div class="stat-number" data-count="<?= htmlspecialchars(setting($conn, 'stat_awards', '12')) ?>" data-suffix="">0</div>
                 <div class="stat-label">Award Wins</div>
             </div>
         </div>
@@ -163,13 +163,13 @@ require_once 'includes/header.php';
             <div class="reveal">
                 <div style="position:relative;">
                     <img
-                        src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=800&q=80"
+                        src="<?= htmlspecialchars(image_url(setting($conn, 'about_image', 'assets/images/about.jpg'))) ?>"
                         alt="Grand Azure Hotel Lobby"
                         style="width:100%; height:500px; object-fit:cover; border-radius:var(--radius-lg);"
                         loading="lazy">
                     <!-- Floating card -->
                     <div style="position:absolute; bottom:-30px; right:-30px; background:var(--gold); color:var(--navy); padding:var(--space-6) var(--space-8); border-radius:var(--radius-md); text-align:center; box-shadow:var(--shadow-gold);">
-                        <div style="font-family:var(--font-serif); font-size:var(--text-4xl); font-weight:700; line-height:1;">25</div>
+                        <div style="font-family:var(--font-serif); font-size:var(--text-4xl); font-weight:700; line-height:1;"><?= htmlspecialchars(setting($conn, 'stat_years', '25')) ?></div>
                         <div style="font-size:var(--text-sm); font-weight:600; letter-spacing:.1em; text-transform:uppercase;">Years of<br>Excellence</div>
                     </div>
                 </div>
@@ -178,19 +178,25 @@ require_once 'includes/header.php';
             <div class="reveal delay-2">
                 <span class="section-eyebrow">Our Story</span>
                 <h2 class="section-title" style="text-align:left; margin-bottom:var(--space-5);">
-                    A Legacy of <span class="accent">Luxury</span>
+                    <?php
+                        $about_title = setting($conn, 'about_title', 'A Legacy of Luxury');
+                        $about_words = explode(' ', $about_title);
+                        $about_accent = array_pop($about_words);
+                        $about_lead   = implode(' ', $about_words);
+                    ?>
+                    <?= htmlspecialchars($about_lead) ?> <span class="accent"><?= htmlspecialchars($about_accent) ?></span>
                 </h2>
                 <div class="sep sep-left"></div>
                 <p style="color:var(--gray-500); line-height:var(--lh-relaxed); margin-bottom:var(--space-5);">
-                    Since 1999, Grand Azure Hotel has stood as a beacon of excellence in luxury hospitality. Nestled in the heart of the city, we have welcomed dignitaries, celebrities, and discerning travelers who seek nothing but the very best.
+                    <?= htmlspecialchars(setting($conn, 'about_text_1', 'Since 1999, Grand Azure Hotel has stood as a beacon of excellence in luxury hospitality. Nestled in the heart of the city, we have welcomed dignitaries, celebrities, and discerning travelers who seek nothing but the very best.')) ?>
                 </p>
                 <p style="color:var(--gray-500); line-height:var(--lh-relaxed); margin-bottom:var(--space-8);">
-                    Our commitment to personalized service, culinary artistry, and unparalleled comfort has earned us 12 prestigious industry awards and the unwavering loyalty of guests from across the globe.
+                    <?= htmlspecialchars(setting($conn, 'about_text_2', 'Our commitment to personalized service, culinary artistry, and unparalleled comfort has earned us 12 prestigious industry awards and the unwavering loyalty of guests from across the globe.')) ?>
                 </p>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-6); margin-bottom:var(--space-8);">
                     <?php
                     $highlights = [
-                        ['fas fa-award',   'Award Winning',   '12 prestigious industry awards'],
+                        ['fas fa-award',   'Award Winning',   htmlspecialchars(setting($conn, 'stat_awards', '12')) . ' prestigious industry awards'],
                         ['fas fa-concierge-bell', '24/7 Service', 'Round-the-clock concierge'],
                         ['fas fa-leaf',    'Sustainable',     'Eco-certified operations'],
                         ['fas fa-wifi',    'Connected',       'High-speed WiFi throughout'],
@@ -207,7 +213,7 @@ require_once 'includes/header.php';
                     </div>
                     <?php endforeach; ?>
                 </div>
-                <a href="about.html" class="btn btn-outline-dark">
+                <a href="about.php" class="btn btn-outline-dark">
                     <i class="fas fa-arrow-right" aria-hidden="true"></i>
                     Our Full Story
                 </a>
@@ -351,18 +357,29 @@ require_once 'includes/header.php';
 
         <div class="gallery-grid reveal">
             <?php
-            $gallery_images = [
-                ['url' => 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80', 'cap' => 'Presidential Suite', 'class' => 'tall'],
-                ['url' => 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80', 'cap' => 'Infinity Pool',       'class' => ''],
-                ['url' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80', 'cap' => 'Fine Dining',        'class' => ''],
-                ['url' => 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80', 'cap' => 'Luxury Spa',         'class' => ''],
-                ['url' => 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80', 'cap' => 'Grand Lobby',         'class' => 'wide'],
-            ];
-            foreach ($gallery_images as $img): ?>
-            <div class="gallery-item <?= $img['class'] ?>" style="height:<?= $img['class'] === 'tall' ? '100%' : '220px' ?>; min-height:220px;">
-                <img src="<?= $img['url'] ?>" alt="<?= htmlspecialchars($img['cap']) ?>" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
+            if (empty($gallery_preview)) {
+                $gallery_preview = [
+                    ['image' => 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80', 'caption' => 'Presidential Suite', 'class' => 'tall'],
+                    ['image' => SITE_URL . '/assets/images/gallery/infinity_pool.jpg', 'caption' => 'Infinity Pool',       'class' => ''],
+                    ['image' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80', 'caption' => 'Fine Dining',        'class' => ''],
+                    ['image' => 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80', 'caption' => 'Luxury Spa',         'class' => ''],
+                    ['image' => 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80', 'caption' => 'Grand Lobby',         'class' => 'wide'],
+                ];
+            } else {
+                $classes = ['tall', '', '', '', 'wide', ''];
+                foreach ($gallery_preview as $idx => &$item) {
+                    $item['class'] = $classes[$idx % 6] ?? '';
+                }
+            }
+            foreach ($gallery_preview as $img):
+                $img_src = isset($img['image']) ? image_url($img['image']) : '';
+                $img_cap = isset($img['caption']) ? $img['caption'] : '';
+                $img_cls = isset($img['class']) ? $img['class'] : '';
+            ?>
+            <div class="gallery-item <?= htmlspecialchars($img_cls) ?>" style="height:<?= $img_cls === 'tall' ? '100%' : '220px' ?>; min-height:220px;">
+                <img src="<?= htmlspecialchars($img_src) ?>" alt="<?= htmlspecialchars($img_cap) ?>" loading="lazy" style="width:100%; height:100%; object-fit:cover;">
                 <div class="gallery-overlay">
-                    <span class="gallery-caption"><?= htmlspecialchars($img['cap']) ?></span>
+                    <span class="gallery-caption"><?= htmlspecialchars($img_cap) ?></span>
                 </div>
             </div>
             <?php endforeach; ?>
@@ -423,9 +440,13 @@ require_once 'includes/header.php';
                     </div>
                     <p class="testimonial-text"><?= htmlspecialchars($t['content']) ?></p>
                     <div class="testimonial-author">
-                        <div class="testimonial-avatar-initials" aria-hidden="true">
-                            <?= strtoupper(substr($t['author_name'], 0, 1)) ?>
-                        </div>
+                        <?php if (!empty($t['avatar'])): ?>
+                            <img src="<?= htmlspecialchars(image_url($t['avatar'])) ?>" alt="<?= htmlspecialchars($t['author_name']) ?>" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; margin-right: var(--space-3);">
+                        <?php else: ?>
+                            <div class="testimonial-avatar-initials" aria-hidden="true">
+                                <?= strtoupper(substr($t['author_name'], 0, 1)) ?>
+                            </div>
+                        <?php endif; ?>
                         <div class="testimonial-author-info">
                             <span class="testimonial-author-name"><?= htmlspecialchars($t['author_name']) ?></span>
                             <span class="testimonial-author-role"><?= htmlspecialchars($t['author_role']) ?></span>

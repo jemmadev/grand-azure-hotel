@@ -1,67 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<?php
+// ============================================================
+//  Grand Azure Hotel — Restaurant Page
+//  Converted from restaurant.html to a dynamic PHP page so the
+//  Fine Dining and Sky Bar images can be managed from
+//  Admin > Site Content instead of being hardcoded.
+// ============================================================
 
-    <meta name="description" content="Dine at Grand Azure Hotel's award-winning restaurant. International cuisine, daily buffet breakfast, and a sky bar with live music.">
-    <meta name="author" content="Grand Azure Hotel">
+$page_title = 'Restaurant';
+$meta_desc  = "Dine at Grand Azure Hotel's award-winning restaurant. International cuisine, daily buffet breakfast, and a sky bar with live music.";
 
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Restaurant | Grand Azure Hotel">
-    <meta property="og:description" content="Dine at Grand Azure Hotel's award-winning restaurant. International cuisine, daily buffet breakfast, and a sky bar with live music.">
-
-    <title>Restaurant | Grand Azure Hotel</title>
-
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a1628'/%3E%3Ctext y='22' x='5' font-size='18' font-family='Georgia' fill='%23c9a84c'%3EGA%3C/text%3E%3C/svg%3E">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body>
-
-<!-- ===================== NAVIGATION ======================= -->
-<!-- Static page: nav always shows the logged-out state. See about.html for details. -->
-<nav class="navbar transparent" id="navbar" role="navigation" aria-label="Main navigation">
-    <div class="container">
-        <div class="nav-inner">
-            <a href="index.php" class="nav-logo" aria-label="Grand Azure Hotel Home">
-                <div class="nav-logo-icon" aria-hidden="true">GA</div>
-                <div class="nav-logo-text">
-                    <span class="nav-logo-name">Grand Azure</span>
-                    <span class="nav-logo-tagline">Luxury Hotel</span>
-                </div>
-            </a>
-
-            <ul class="nav-menu" id="navMenu" role="menubar">
-                <li role="none"><a href="index.php"      class="nav-link" role="menuitem">Home</a></li>
-                <li role="none"><a href="about.html"     class="nav-link" role="menuitem">About</a></li>
-                <li role="none"><a href="rooms.php"      class="nav-link" role="menuitem">Rooms</a></li>
-                <li role="none"><a href="services.php"   class="nav-link" role="menuitem">Services</a></li>
-                <li role="none"><a href="restaurant.html" class="nav-link active" role="menuitem">Restaurant</a></li>
-                <li role="none"><a href="gallery.php"    class="nav-link" role="menuitem">Gallery</a></li>
-                <li role="none"><a href="contact.php"    class="nav-link" role="menuitem">Contact</a></li>
-            </ul>
-
-            <div class="nav-actions" id="navActions">
-                <a href="login.php"  class="btn btn-outline btn-sm">Login</a>
-                <a href="booking.php" class="btn btn-primary btn-sm">
-                    <i class="fas fa-calendar-check" aria-hidden="true"></i> Book Now
-                </a>
-            </div>
-
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </div>
-</nav>
-<!-- =================== END NAVIGATION ===================== -->
+require_once 'includes/functions.php';
+require_once 'includes/header.php';
+?>
 
 <!-- PAGE HERO -->
 <section class="page-hero" aria-label="Restaurant">
@@ -81,7 +31,7 @@
     <div class="container">
         <div class="grid-2" style="align-items:center; gap:5rem;">
             <div class="reveal">
-                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80"
+                <img src="<?= htmlspecialchars(image_url(setting($conn, 'dining_image'))) ?>"
                      alt="Azure Fine Dining Restaurant" style="width:100%;height:500px;object-fit:cover;border-radius:var(--radius-lg);" loading="lazy">
             </div>
             <div class="reveal delay-2">
@@ -248,7 +198,7 @@
                 <a href="contact.php" class="btn btn-primary"><i class="fas fa-cocktail"></i> Reserve a Table</a>
             </div>
             <div class="reveal">
-                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80"
+                <img src="<?= htmlspecialchars(image_url(setting($conn, 'skybar_image'))) ?>"
                      alt="Azure Sky Bar" style="width:100%;height:440px;object-fit:cover;border-radius:var(--radius-lg);" loading="lazy">
             </div>
         </div>
@@ -288,94 +238,5 @@
     </div>
 </section>
 
-<!-- ===================== FOOTER =========================== -->
-<footer class="footer" role="contentinfo">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <a href="index.php" class="nav-logo" style="margin-bottom:1.25rem; display:inline-flex;">
-                    <div class="nav-logo-icon">GA</div>
-                    <div class="nav-logo-text">
-                        <span class="nav-logo-name">Grand Azure</span>
-                        <span class="nav-logo-tagline">Luxury Hotel</span>
-                    </div>
-                </a>
-                <p class="footer-desc">
-                    Experience the pinnacle of luxury at Grand Azure Hotel. Nestled in the heart of the city, we offer world-class amenities, impeccable service, and unforgettable memories.
-                </p>
-                <div class="footer-social" role="list" aria-label="Social media links">
-                    <a href="#" class="social-link" role="listitem" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link" role="listitem" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link" role="listitem" aria-label="Twitter / X"><i class="fab fa-x-twitter"></i></a>
-                    <a href="#" class="social-link" role="listitem" aria-label="TripAdvisor"><i class="fab fa-tripadvisor"></i></a>
-                    <a href="#" class="social-link" role="listitem" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
 
-            <nav aria-label="Footer quick links">
-                <h3 class="footer-heading">Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="index.php"      class="footer-link"><i class="fas fa-chevron-right"></i> Home</a></li>
-                    <li><a href="about.html"      class="footer-link"><i class="fas fa-chevron-right"></i> About Us</a></li>
-                    <li><a href="rooms.php"       class="footer-link"><i class="fas fa-chevron-right"></i> Rooms &amp; Suites</a></li>
-                    <li><a href="services.php"   class="footer-link"><i class="fas fa-chevron-right"></i> Services</a></li>
-                    <li><a href="restaurant.html" class="footer-link"><i class="fas fa-chevron-right"></i> Restaurant</a></li>
-                    <li><a href="gallery.php"    class="footer-link"><i class="fas fa-chevron-right"></i> Gallery</a></li>
-                    <li><a href="faq.php"        class="footer-link"><i class="fas fa-chevron-right"></i> FAQ</a></li>
-                    <li><a href="contact.php"    class="footer-link"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
-                </ul>
-            </nav>
-
-            <nav aria-label="Room types">
-                <h3 class="footer-heading">Room Types</h3>
-                <ul class="footer-links">
-                    <li><a href="rooms.php?cat=Standard"          class="footer-link"><i class="fas fa-chevron-right"></i> Standard Room</a></li>
-                    <li><a href="rooms.php?cat=Deluxe"            class="footer-link"><i class="fas fa-chevron-right"></i> Deluxe Room</a></li>
-                    <li><a href="rooms.php?cat=Executive"         class="footer-link"><i class="fas fa-chevron-right"></i> Executive Room</a></li>
-                    <li><a href="rooms.php?cat=Family"            class="footer-link"><i class="fas fa-chevron-right"></i> Family Room</a></li>
-                    <li><a href="rooms.php?cat=Presidential+Suite" class="footer-link"><i class="fas fa-chevron-right"></i> Presidential Suite</a></li>
-                    <li><a href="booking.php"                     class="footer-link"><i class="fas fa-chevron-right"></i> Book Now</a></li>
-                </ul>
-            </nav>
-
-            <address>
-                <h3 class="footer-heading">Contact Us</h3>
-                <div class="footer-contact-item">
-                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-                    <span>123 Azure Boulevard, Luxury District, NY 10001, USA</span>
-                </div>
-                <div class="footer-contact-item">
-                    <i class="fas fa-phone" aria-hidden="true"></i>
-                    <a href="tel:+15551234567" style="color:inherit">+1 (555) 123-4567</a>
-                </div>
-                <div class="footer-contact-item">
-                    <i class="fas fa-envelope" aria-hidden="true"></i>
-                    <a href="mailto:info@grandazure.com" style="color:inherit">info@grandazure.com</a>
-                </div>
-                <div class="footer-contact-item">
-                    <i class="fas fa-clock" aria-hidden="true"></i>
-                    <span>Check-in: 3:00 PM &nbsp;|&nbsp; Check-out: 12:00 PM</span>
-                </div>
-                <div style="margin-top:1.5rem;">
-                    <a href="booking.php" class="btn btn-primary btn-sm">
-                        <i class="fas fa-calendar-check"></i> Reserve a Room
-                    </a>
-                </div>
-            </address>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2026 <strong style="color:rgba(255,255,255,.7)">Grand Azure Hotel</strong>. All rights reserved.</p>
-            <p>Designed with <i class="fas fa-heart" style="color:var(--gold);margin:0 2px"></i> for luxury hospitality</p>
-        </div>
-    </div>
-</footer>
-<!-- =================== END FOOTER ========================= -->
-
-<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
-    <i class="fas fa-arrow-up" aria-hidden="true"></i>
-</button>
-
-<script src="assets/js/main.js"></script>
-</body>
-</html>
+<?php require_once 'includes/footer.php'; ?>

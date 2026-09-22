@@ -17,7 +17,6 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email    = sanitize($_POST['email']    ?? '');
     $password = $_POST['password']           ?? '';
-    $remember = isset($_POST['remember']);
 
     if (empty($email) || empty($password)) {
         $error = 'Please enter your email and password.';
@@ -36,11 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['user_email']= $user['email'];
 
-                // Set remember-me cookie (30 days)
-                if ($remember) {
-                    setcookie('remember_user', base64_encode($user['id'] . ':' . $user['email']), time() + 86400 * 30, '/');
-                }
-
                 $redirect = $_SESSION['redirect_after_login'] ?? SITE_URL . '/user/dashboard.php';
                 unset($_SESSION['redirect_after_login']);
                 set_flash('success', 'Welcome back, ' . $user['name'] . '!');
@@ -55,9 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 require_once 'includes/header.php';
+$auth_bg = image_url(setting($conn, 'hero_image', 'assets/images/hero.jpg'));
 ?>
 <style>
-.auth-wrapper{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--cream);padding:var(--space-20) var(--space-4);}
+.auth-wrapper{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:var(--space-20) var(--space-4);
+    background-image: linear-gradient(rgba(10,22,40,.75), rgba(10,22,40,.85)), url('<?= htmlspecialchars($auth_bg) ?>');
+    background-size: cover; background-position: center; background-attachment: fixed;}
 .auth-card{background:var(--white);border-radius:var(--radius-lg);overflow:hidden;width:100%;max-width:900px;box-shadow:var(--shadow-lg);display:grid;grid-template-columns:1fr 1fr;}
 .auth-image{position:relative;overflow:hidden;}
 .auth-image img{width:100%;height:100%;object-fit:cover;}
@@ -70,7 +67,7 @@ require_once 'includes/header.php';
     <div class="auth-card animate-scale-in">
         <!-- Image -->
         <div class="auth-image">
-            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80" alt="Grand Azure Pool">
+            <img src="<?= htmlspecialchars($auth_bg) ?>" alt="Grand Azure Hotel">
             <div class="auth-image-overlay">
                 <div class="nav-logo-icon" style="width:60px;height:60px;font-size:1.5rem;margin-bottom:var(--space-5);">GA</div>
                 <h2 style="font-family:var(--font-serif);font-size:var(--text-2xl);margin-bottom:var(--space-4);">Welcome Back</h2>
@@ -104,7 +101,7 @@ require_once 'includes/header.php';
                     <label class="form-label" for="email">Email Address <span class="required">*</span></label>
                     <div style="position:relative;">
                         <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray-400);"><i class="fas fa-envelope"></i></span>
-                        <input class="form-control" type="email" id="email" name="email" placeholder="john@example.com" required
+                        <input class="form-control" type="email" id="email" name="email" required
                                style="padding-left:42px;"
                                value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                     </div>
@@ -113,17 +110,11 @@ require_once 'includes/header.php';
                     <label class="form-label" for="password">Password <span class="required">*</span></label>
                     <div style="position:relative;">
                         <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gray-400);"><i class="fas fa-lock"></i></span>
-                        <input class="form-control" type="password" id="password" name="password" placeholder="Your password" required style="padding-left:42px;">
+                        <input class="form-control" type="password" id="password" name="password" required style="padding-left:42px;">
                         <button type="button" onclick="togglePass('password',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--gray-400);cursor:pointer;"><i class="fas fa-eye"></i></button>
                     </div>
                 </div>
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);">
-                    <label style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-sm);cursor:pointer;">
-                        <input type="checkbox" name="remember" id="remember"> Remember me
-                    </label>
-                    <a href="#" style="font-size:var(--text-sm);color:var(--gold);">Forgot password?</a>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">
+                <button type="submit" class="btn btn-primary btn-block" style="margin-top:var(--space-6);">
                     <i class="fas fa-sign-in-alt"></i> Sign In
                 </button>
             </form>

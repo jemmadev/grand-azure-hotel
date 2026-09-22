@@ -72,6 +72,10 @@ function admin_nav_class(string $page, string $current): string {
             <a href="bookings.php"  class="<?= admin_nav_class('bookings.php', $admin_current) ?>"><i class="fas fa-calendar-check"></i> Bookings</a>
             <a href="rooms.php"     class="<?= admin_nav_class('rooms.php', $admin_current) ?>"><i class="fas fa-door-open"></i> Rooms</a>
             <a href="gallery.php"   class="<?= admin_nav_class('gallery.php', $admin_current) ?>"><i class="fas fa-images"></i> Gallery</a>
+            <a href="services.php"  class="<?= admin_nav_class('services.php', $admin_current) ?>"><i class="fas fa-concierge-bell"></i> Services</a>
+            <a href="content.php"   class="<?= admin_nav_class('content.php', $admin_current) ?>"><i class="fas fa-file-image"></i> Site Content</a>
+            <a href="testimonials.php" class="<?= admin_nav_class('testimonials.php', $admin_current) ?>"><i class="fas fa-quote-right"></i> Testimonials</a>
+            <a href="faqs.php"      class="<?= admin_nav_class('faqs.php', $admin_current) ?>"><i class="fas fa-question-circle"></i> FAQs</a>
             <a href="users.php"     class="<?= admin_nav_class('users.php', $admin_current) ?>"><i class="fas fa-users"></i> Users</a>
             <a href="reports.php"   class="<?= admin_nav_class('reports.php', $admin_current) ?>"><i class="fas fa-chart-line"></i> Reports</a>
             <a href="settings.php"  class="<?= admin_nav_class('settings.php', $admin_current) ?>"><i class="fas fa-cog"></i> Settings</a>

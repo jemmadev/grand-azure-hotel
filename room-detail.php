@@ -21,16 +21,21 @@ if (!$room) {
     $room = $demo_rooms[$room_id] ?? $demo_rooms[1];
 }
 
+// Room category images (fallback when a room has no image set)
+$cat_images = [
+    'Standard'          => 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1200&q=80',
+    'Deluxe'            => 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80',
+    'Executive'         => 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=80',
+    'Family'            => 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1200&q=80',
+    'Presidential Suite'=> 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
+];
+if (empty($room['image'])) {
+    $room['image'] = $cat_images[$room['category']] ?? 'https://via.placeholder.com/1200x800?text=No+Image+Available';
+}
+
 $page_title = htmlspecialchars($room['name']);
 $amenities  = array_map('trim', explode(',', $room['amenities'] ?? ''));
-
-// Gallery images (use a mix of Unsplash for demo)
-$gallery_imgs = [
-    $room['image'],
-    'https://images.unsplash.com/photo-1631049552057-403cdb8f0658?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=800&q=80',
-];
+$room_images = !empty($room['id']) ? get_room_images($conn, (int)$room['id']) : [];
 
 require_once 'includes/header.php';
 ?>
@@ -62,19 +67,26 @@ require_once 'includes/header.php';
             <!-- Left: Gallery -->
             <div class="reveal">
                 <img id="mainRoomImg" class="room-gallery-main" src="<?= htmlspecialchars($room['image']) ?>" alt="<?= htmlspecialchars($room['name']) ?>">
+                <?php if (!empty($room_images)): ?>
                 <div class="grid-4" style="margin-top:var(--space-3); gap:var(--space-3);">
-                    <?php foreach ($gallery_imgs as $j => $gimg): ?>
-                    <img class="room-thumb <?= $j===0?'active':'' ?>"
-                         src="<?= htmlspecialchars($gimg) ?>"
-                         alt="Room view <?= $j+1 ?>"
+                    <img class="room-thumb active"
+                         src="<?= htmlspecialchars($room['image']) ?>"
+                         alt="<?= htmlspecialchars($room['name']) ?> — main view"
+                         loading="lazy"
+                         onclick="switchRoomImg(this)">
+                    <?php foreach ($room_images as $ri): ?>
+                    <img class="room-thumb"
+                         src="<?= htmlspecialchars(image_url($ri['image'])) ?>"
+                         alt="<?= htmlspecialchars($ri['caption'] ?: ($room['name'] . ' — additional view')) ?>"
                          loading="lazy"
                          onclick="switchRoomImg(this)">
                     <?php endforeach; ?>
                 </div>
+                <?php endif; ?>
             </div>
 
             <!-- Right: Details -->
-            <div class="reveal delay-2">
+            <div class="reveal delay-0">
                 <div style="display:flex; gap:var(--space-3); flex-wrap:wrap; margin-bottom:var(--space-5);">
                     <span class="badge badge-gold"><?= htmlspecialchars($room['category']) ?></span>
                     <span class="badge <?= $room['status']==='available' ? 'badge-success' : 'badge-danger' ?>">
@@ -157,6 +169,7 @@ require_once 'includes/header.php';
     </div>
 </section>
 
+<?php if (!empty($room_images)): ?>
 <script>
 function switchRoomImg(thumb) {
     document.getElementById('mainRoomImg').src = thumb.src;
@@ -164,5 +177,6 @@ function switchRoomImg(thumb) {
     thumb.classList.add('active');
 }
 </script>
+<?php endif; ?>
 
 <?php require_once 'includes/footer.php'; ?>

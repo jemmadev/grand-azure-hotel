@@ -68,7 +68,7 @@ $all_services = [
     <div class="container">
         <div class="grid-2" style="align-items:center; gap:5rem;">
             <div class="reveal">
-                <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=800&q=80"
+                <img src="<?= htmlspecialchars(image_url(setting($conn, 'spa_image'))) ?>"
                      alt="Grand Azure Spa" style="width:100%; height:440px; object-fit:cover; border-radius:var(--radius-lg);" loading="lazy">
             </div>
             <div class="reveal delay-2">
@@ -114,7 +114,7 @@ $all_services = [
                 </div>
             </div>
             <div class="reveal">
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80"
+                <img src="<?= htmlspecialchars(image_url(setting($conn, 'pool_image'))) ?>"
                      alt="Infinity Pool" style="width:100%; height:440px; object-fit:cover; border-radius:var(--radius-lg);" loading="lazy">
             </div>
         </div>
