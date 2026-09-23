@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label class="form-label" for="email">Admin Email</label>
             <div style="position: relative;">
                 <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--gray-400);"><i class="fas fa-envelope"></i></span>
-                <input class="form-control" type="email" id="email" name="email" required style="padding-left: 42px;" placeholder="admin@grandazure.com">
+                <input class="form-control" type="email" id="email" name="email" required style="padding-left: 42px;" placeholder="Enter Admin Email">
             </div>
         </div>
         
