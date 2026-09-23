@@ -3,38 +3,36 @@
 A hotel booking and management system built with HTML, CSS, JavaScript, PHP, and MySQL. Includes a public-facing site (rooms, gallery, services, booking) and an admin dashboard for managing rooms, bookings, users, and reports.
 
 ## Requirements
-- PHP 7.4+ (tested on 8.3) with the `mysqli` extension
-- MySQL 5.7+ or MariaDB 10.3+
-- Apache/XAMPP, or PHP's built-in server for local testing
+
+* PHP 7.4+ (tested on 8.3) with the `mysqli` extension
+* MySQL 5.7+ or MariaDB 10.3+
+* Apache/XAMPP, or PHP's built-in server for local testing
 
 ## Setup
 
 1. **Copy the project** into your web server's document root (e.g. `htdocs/hotel` in XAMPP).
-
 2. **Create the database.** Import `database/hotel.sql`:
-   ```
+
+```
    mysql -u root -p < database/hotel.sql
    ```
-   This creates the `grand_azure_hotel` database with sample rooms, services, gallery photos, FAQs, and demo accounts.
 
-3. **Check `includes/config.php`.** Defaults (`DB_HOST=localhost`, `DB_USER=root`, `DB_PASS=''`) match a typical XAMPP install — update if yours differs.
+   This creates the database with sample rooms, services, gallery photos, and FAQs.
 
+3. **Check `includes/config.php`.** Update `DB\_HOST`, `DB\_USER`, `DB\_PASS`, and `DB\_NAME` to match your own environment. This file is not committed to version control — copy the example values from the project owner or set up your own local database and seed it yourself.
 4. **Run it.**
-   - XAMPP/Apache: visit `http://localhost/hotel/index.php`
-   - PHP built-in server: `php -S localhost:8000`, then visit `http://localhost:8000/index.php`
 
-## Demo Login Credentials
-All seeded accounts use the password: **password**
+   * XAMPP/Apache: visit `http://localhost/hotel/index.php`
+   * PHP built-in server: `php -S localhost:8000`, then visit `http://localhost:8000/index.php`
 
-| Role  | Email                 | Password |
-|-------|-----------------------|----------|
-| Admin | admin@grandazure.com  | password |
-| User  | alice@example.com     | password |
-| User  | bob@example.com        | password |
+## Login Credentials
 
-**Change these before deploying anywhere public.**
+set your own admin password after importing the database (see the project owner's notes, or generate a new password hash and update the `admins` table directly).
+
+
 
 ## Folder Structure
+
 ```
 ├── admin/              Admin PHP pages (dashboard, rooms, bookings, users, reports)
 ├── user/               User account pages (dashboard, booking history, profile)
@@ -49,4 +47,5 @@ All seeded accounts use the password: **password**
 └── booking.php         Booking form + logic
 ```
 
-See `REPORT.md` for the full list of changes made and bugs fixed during development.
+
+
