@@ -120,10 +120,7 @@ $auth_bg = image_url(setting($conn, 'hero_image', 'assets/images/hero.jpg'));
             </form>
 
             <div style="margin-top:var(--space-8); padding-top:var(--space-6); border-top:1px solid var(--gray-100); text-align:center;">
-                <p style="font-size:var(--text-xs); color:var(--gray-400);">
-                    Demo credentials: <code>alice@example.com</code> / <code>password</code> <br>
-                    (after importing the database)
-                </p>
+                
             </div>
         </div>
     </div>
